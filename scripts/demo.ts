@@ -8,4 +8,4 @@ if (!url) {
 }
 process.env.DATABASE_URL = url;
 await import("./seed-demo.ts");
-spawn("npx", ["next", "dev"], { stdio: "inherit", env: { ...process.env, DATABASE_URL: url } });
+spawn("npx", ["next", "dev", ...process.argv.slice(2)], { stdio: "inherit", env: { ...process.env, DATABASE_URL: url } });
