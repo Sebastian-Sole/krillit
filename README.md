@@ -11,12 +11,12 @@ Krillit runs on Vercel with a Neon Postgres database (added through Vercel's Neo
 npm install
 vercel link                      # once, to the krillit project
 vercel env pull .env.local       # fetches DATABASE_URL, DEMO_DATABASE_URL and the rest
-npm run dev                      # against the real database
+npm run dev                      # against the REAL database: anything you add here is live
 npm run demo                     # wipes and refills the separate demo database, then serves it
 npm test                         # parser, calendar and percentile tests
 ```
 
-`npm run build` creates any missing tables before building (`npm run db:migrate` does just that step).
+Use `npm run demo` to try changes; it never touches the real data. `npm run build` creates any missing tables before building (`npm run db:migrate` does just that step).
 
 Environment variables (set them in the Vercel project, then `vercel env pull`):
 
@@ -71,5 +71,5 @@ work, and only the prompts and worldwide comparisons stop updating.
 
 ## Deploying
 
-Pushing to `main` deploys to production through Vercel's Git integration; other branches get preview
-URLs. Data access lives only in `src/lib/db.ts`.
+Live at https://krillit.vercel.app. Pushing to `main` deploys to production through Vercel's Git
+integration; other branches get preview URLs. Data access lives only in `src/lib/db.ts`.
