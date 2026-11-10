@@ -1,0 +1,33 @@
+{
+  "name": "krillit",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "node scripts/migrate.ts && next build",
+    "start": "next start",
+    "lint": "eslint",
+    "demo": "node --env-file-if-exists=.env.local scripts/demo.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "node --test src/lib/*.test.ts",
+    "db:migrate": "node --env-file-if-exists=.env.local scripts/migrate.ts"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.2.0",
+    "next": "16.4.6",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.6",
+    "typescript": "^5"
+  },
+  "engines": {
+    "node": ">=22.13"
+  },
+  "type": "module"
+}

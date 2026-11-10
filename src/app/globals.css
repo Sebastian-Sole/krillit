@@ -1,0 +1,495 @@
+:root {
+  color-scheme: light;
+  --page: #f9f9f7;
+  --surface: #fcfcfb;
+  --ink: #0b0b0b;
+  --ink-2: #52514e;
+  --muted: #898781;
+  --grid: #e1e0d9;
+  --axis: #c3c2b7;
+  --border: rgba(11, 11, 11, 0.1);
+  --accent: #2a78d6;
+  --good: #006300;
+  --bad: #d03b3b;
+
+  /* player identity: categorical slots, fixed order */
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --series-3: #1baf7a;
+  --series-4: #eda100;
+  --series-5: #e87ba4;
+  --series-6: #008300;
+  --series-7: #6250d6;
+  --series-8: #e34948;
+  --series-other: #b5b3ab;
+
+  /* worldwide histogram bars */
+  --hist-bar: #86b6ef;
+
+  /* Krillion's own tier colours (from krillion.io). They're made for its dark ocean,
+     so the depth chart always sits on an "abyss" panel, in both themes. */
+  --abyss: #050a14;
+  --abyss-2: #0c1830;
+  --foam: #e8f1ff;
+  --tier-miss: #3d4f6e;
+  --tier-plankton: #8fa3c4;
+  --tier-tooclever: #ff9f43;
+  --tier-schooler: #4de3ff;
+  --tier-rare: #ff5252;
+  --tier-deepcut: #9d7bff;
+  --tier-krillion: #ffd166;
+
+  /* sequential, for the weekday heatmap */
+  --seq-lo: #cde2fb;
+  --seq-hi: #104281;
+  --on-lo: #0b0b0b;
+  --on-hi: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --page: #0d0d0d;
+    --surface: #1a1a19;
+    --ink: #f0efec;
+    --ink-2: #c3c2b7;
+    --muted: #898781;
+    --grid: #2c2c2a;
+    --axis: #383835;
+    --border: rgba(255, 255, 255, 0.1);
+    --accent: #3987e5;
+    --good: #0ca30c;
+    --bad: #e66767;
+
+    --series-1: #3987e5;
+    --series-2: #d95926;
+    --series-3: #199e70;
+    --series-4: #c98500;
+    --series-5: #d55181;
+    --series-6: #008300;
+    --series-7: #9085e9;
+    --series-8: #e66767;
+    --series-other: #5f5e5a;
+
+    --hist-bar: #184f95;
+
+    --seq-lo: #184f95;
+    --seq-hi: #cde2fb;
+    --on-lo: #ffffff;
+    --on-hi: #0b0b0b;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--page);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+}
+
+.shell {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 20px 20px 80px;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 8px 0 24px;
+}
+.brand {
+  font-weight: 700;
+  font-size: 20px;
+  text-decoration: none;
+  letter-spacing: -0.01em;
+}
+.topbar nav {
+  display: flex;
+  gap: 4px;
+}
+.topbar nav a {
+  text-decoration: none;
+  color: var(--ink-2);
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+.topbar nav a:hover {
+  background: var(--border);
+  color: var(--ink);
+}
+
+h1 {
+  font-size: 28px;
+  margin: 0 0 4px;
+  letter-spacing: -0.02em;
+}
+h2 {
+  font-size: 17px;
+  margin: 0 0 4px;
+}
+.sub {
+  color: var(--ink-2);
+  margin: 0 0 16px;
+  font-size: 14px;
+}
+.muted {
+  color: var(--muted);
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+}
+
+.day-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.pager {
+  display: flex;
+  gap: 6px;
+}
+.pager a,
+.pager span {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 10px;
+  text-decoration: none;
+  font-size: 14px;
+  background: var(--surface);
+}
+.pager span {
+  color: var(--muted);
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.tile {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+.tile .label {
+  font-size: 13px;
+  color: var(--ink-2);
+}
+.tile .value {
+  font-size: 28px;
+  font-weight: 650;
+  margin-top: 2px;
+}
+.tile .note {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* submit form */
+.submit {
+  display: grid;
+  grid-template-columns: 200px 1fr auto;
+  gap: 10px;
+  align-items: start;
+}
+.submit input,
+.submit textarea {
+  font: inherit;
+  font-size: 15px;
+  color: var(--ink);
+  background: var(--page);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  width: 100%;
+}
+.submit textarea {
+  resize: vertical;
+  min-height: 44px;
+  height: 44px;
+}
+.submit button {
+  font: inherit;
+  font-weight: 600;
+  border: 0;
+  border-radius: 10px;
+  padding: 11px 18px;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+.submit button:disabled {
+  opacity: 0.6;
+}
+.flash {
+  margin: 10px 0 0;
+  font-size: 14px;
+}
+.flash.ok {
+  color: var(--good);
+}
+.flash.err {
+  color: var(--bad);
+}
+@media (max-width: 640px) {
+  .submit {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+th {
+  text-align: left;
+  font-weight: 500;
+  color: var(--muted);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--grid);
+}
+td {
+  padding: 9px 8px;
+  border-bottom: 1px solid var(--grid);
+}
+tr:last-child td {
+  border-bottom: 0;
+}
+td.num,
+th.num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.rank {
+  width: 32px;
+  color: var(--muted);
+}
+.emojis {
+  letter-spacing: 2px;
+  white-space: nowrap;
+}
+.who {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 550;
+}
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex: none;
+}
+.delta-up {
+  color: var(--good);
+}
+.delta-down {
+  color: var(--bad);
+}
+.scroll-x {
+  overflow-x: auto;
+}
+
+/* prompts */
+.prompts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.prompts li {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 4px 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--grid);
+}
+.prompts li:last-child {
+  border-bottom: 0;
+}
+.prompts .n {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.prompt-text {
+  font-weight: 550;
+}
+.prompt-meta {
+  grid-column: 2;
+  font-size: 13px;
+  color: var(--ink-2);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+}
+.chip {
+  white-space: nowrap;
+}
+details > summary {
+  cursor: pointer;
+  color: var(--ink-2);
+  font-size: 14px;
+}
+.gems {
+  grid-column: 2;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* charts */
+.chart {
+  position: relative;
+}
+.chart svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+.chart text {
+  font-family: inherit;
+}
+.tick {
+  fill: var(--muted);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+.tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--border);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 13px;
+  line-height: 1.45;
+  white-space: nowrap;
+  z-index: 10;
+  transform: translate(-50%, calc(-100% - 12px));
+}
+.tooltip .t-title {
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.tooltip .t-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.tooltip .t-row b {
+  margin-left: auto;
+  padding-left: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  font-size: 13px;
+  color: var(--ink-2);
+  margin: 4px 0 10px;
+}
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.swatch-line {
+  width: 16px;
+  height: 0;
+  border-top: 2px solid;
+}
+.swatch-dash {
+  width: 16px;
+  height: 0;
+  border-top: 2px dashed var(--muted);
+}
+.swatch-box {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+.heat td.cell {
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  border: 2px solid var(--surface);
+  border-radius: 6px;
+  padding: 8px 4px;
+  min-width: 52px;
+}
+.heat td.best {
+  font-weight: 700;
+  outline: 2px solid var(--ink);
+  outline-offset: -2px;
+}
+
+.empty {
+  color: var(--muted);
+  font-size: 14px;
+  padding: 12px 0;
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 800px) {
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}
+footer.foot {
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 32px;
+}
+
+/* the depth chart lives in Krillion's ocean in both themes */
+.depth {
+  background: linear-gradient(180deg, var(--abyss-2), var(--abyss) 70%);
+  border-radius: 12px;
+  padding: 14px 12px 6px;
+  color: var(--foam);
+}
+.depth .depth-legend {
+  color: rgba(232, 241, 255, 0.8);
+  padding: 0 6px;
+}
+
+.periods th.group {
+  text-align: center;
+  border-bottom: 1px solid var(--grid);
+}
+.periods .split {
+  border-left: 1px solid var(--grid);
+}

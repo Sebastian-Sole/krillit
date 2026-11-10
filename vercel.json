@@ -1,0 +1,16 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "schedules": {
+    "krillion-sync": {
+      "schedule": "*/20 * * * *",
+      "path": "/api/sync",
+      "requestMethod": "GET"
+    },
+    "krillion-sync-before-reset": {
+      "schedule": "55 23 * * *",
+      "timezone": "America/New_York",
+      "path": "/api/sync",
+      "requestMethod": "GET"
+    }
+  }
+}
